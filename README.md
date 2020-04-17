@@ -4,3 +4,15 @@ This repo provides the code to set up the monitoring and alerting for an APC UPS
 ![UPSmonitor Grafana dashboard](media/grafana_dashboard.png)
 
 I have configured and tested the Node-RED flow and the Grafana dashboard with two APC UPS models,  one "Back-UPS RS 900G" and an older "Back-UPS CS 650", both connected via USB to a Raspberry Pi 3 with Rasbian Buster Lite and Node-RED, InfluxDB and Grafana all locally installed.
+
+## Prerequisites
+
+Here I will provide some information about the prerequisites to get things rollin'.
+
+## Node-RED flow
+
+The Node-RED flow...
+
+## Grafana dashboard
+
+...and the code for the Grafana dashboard will be published soon.
