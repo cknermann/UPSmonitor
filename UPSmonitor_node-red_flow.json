@@ -1,0 +1,382 @@
+[
+    {
+        "id": "d986aa2e.6e0688",
+        "type": "tab",
+        "label": "UPSmonitor",
+        "disabled": false,
+        "info": ""
+    },
+    {
+        "id": "eb3b56fc.65e99",
+        "type": "inject",
+        "z": "d986aa2e.6e0688",
+        "name": "inject every 60 seconds",
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "repeat": "60",
+        "crontab": "",
+        "once": true,
+        "onceDelay": 0.1,
+        "x": 170,
+        "y": 100,
+        "wires": [
+            [
+                "ac28ea3c.b28078"
+            ]
+        ]
+    },
+    {
+        "id": "ac28ea3c.b28078",
+        "type": "nut-ups",
+        "z": "d986aa2e.6e0688",
+        "name": "APC Back-UPS CS 650",
+        "ups": "ups01@localhost",
+        "x": 170,
+        "y": 180,
+        "wires": [
+            [
+                "377e0821.3cd6b",
+                "da8c7962.78d268",
+                "ed0db8be.fb118",
+                "79cd7247.15d16c",
+                "11c2190f.6359df",
+                "fd216485.a8da38",
+                "7e6fa9cc.613858",
+                "f6d45213.551688"
+            ]
+        ]
+    },
+    {
+        "id": "377e0821.3cd6b",
+        "type": "function",
+        "z": "d986aa2e.6e0688",
+        "name": "prepare input.voltage",
+        "func": "value=parseFloat(msg.payload.input.voltage.value);\n\nmsg.payload=[{\n\tinput_voltage: value\n}];\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 460,
+        "y": 300,
+        "wires": [
+            [
+                "ab86e7dc.ab41e"
+            ]
+        ]
+    },
+    {
+        "id": "11c2190f.6359df",
+        "type": "function",
+        "z": "d986aa2e.6e0688",
+        "name": "prepare ups.load",
+        "func": "value=parseFloat(msg.payload.ups.load.value);\n\nmsg.payload=[{\n\tups_load: value\n}];\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 450,
+        "y": 360,
+        "wires": [
+            [
+                "ab86e7dc.ab41e"
+            ]
+        ]
+    },
+    {
+        "id": "da8c7962.78d268",
+        "type": "function",
+        "z": "d986aa2e.6e0688",
+        "name": "prepare battery.charge",
+        "func": "value=parseFloat(msg.payload.battery.charge.value);\n\nmsg.payload=[{\n\tbattery_charge: value\n}];\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 460,
+        "y": 120,
+        "wires": [
+            [
+                "ab86e7dc.ab41e"
+            ]
+        ]
+    },
+    {
+        "id": "ed0db8be.fb118",
+        "type": "function",
+        "z": "d986aa2e.6e0688",
+        "name": "prepare battery.temperature",
+        "func": "value=parseFloat(msg.payload.battery.temperature.value);\n\nmsg.payload=[{\n\tbattery_temperature: value\n}];\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 480,
+        "y": 180,
+        "wires": [
+            [
+                "ab86e7dc.ab41e"
+            ]
+        ]
+    },
+    {
+        "id": "79cd7247.15d16c",
+        "type": "function",
+        "z": "d986aa2e.6e0688",
+        "name": "prepare battery.voltage",
+        "func": "value=parseFloat(msg.payload.battery.voltage.value);\n\nmsg.payload=[{\n\tbattery_voltage: value\n}];\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 460,
+        "y": 240,
+        "wires": [
+            [
+                "ab86e7dc.ab41e"
+            ]
+        ]
+    },
+    {
+        "id": "fd216485.a8da38",
+        "type": "unit-converter",
+        "z": "d986aa2e.6e0688",
+        "category": "time",
+        "inputUnit": "s",
+        "outputUnit": "min",
+        "inputField": "payload.battery.runtime.value",
+        "outputField": "payload.battery.runtime.value",
+        "inputFieldType": "msg",
+        "outputFieldType": "msg",
+        "name": "",
+        "x": 440,
+        "y": 420,
+        "wires": [
+            [
+                "40f08402.d9c334"
+            ]
+        ]
+    },
+    {
+        "id": "40f08402.d9c334",
+        "type": "function",
+        "z": "d986aa2e.6e0688",
+        "name": "prepare battery.runtime",
+        "func": "value=parseFloat(msg.payload.battery.runtime.value);\n\nmsg.payload=[{\n\tbattery_runtime: value\n}];\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 650,
+        "y": 420,
+        "wires": [
+            [
+                "ab86e7dc.ab41e"
+            ]
+        ]
+    },
+    {
+        "id": "7e6fa9cc.613858",
+        "type": "change",
+        "z": "d986aa2e.6e0688",
+        "name": "UPS status to mail",
+        "rules": [
+            {
+                "t": "change",
+                "p": "payload.ups.status.value",
+                "pt": "msg",
+                "from": "OL CHRG",
+                "fromt": "str",
+                "to": "online charging",
+                "tot": "str"
+            },
+            {
+                "t": "change",
+                "p": "payload.ups.status.value",
+                "pt": "msg",
+                "from": "OL",
+                "fromt": "str",
+                "to": "online",
+                "tot": "str"
+            },
+            {
+                "t": "change",
+                "p": "payload.ups.status.value",
+                "pt": "msg",
+                "from": "OB DISCHRG",
+                "fromt": "str",
+                "to": "on battery discharging",
+                "tot": "str"
+            },
+            {
+                "t": "change",
+                "p": "payload.ups.status.value",
+                "pt": "msg",
+                "from": "OB LB",
+                "fromt": "str",
+                "to": "low battery",
+                "tot": "str"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 450,
+        "y": 540,
+        "wires": [
+            [
+                "5871d88d.3de25"
+            ]
+        ]
+    },
+    {
+        "id": "5871d88d.3de25",
+        "type": "function",
+        "z": "d986aa2e.6e0688",
+        "name": "get ups.status / set Subject",
+        "func": "msg.payload = msg.payload.ups.status.value\nmsg.topic = \"UPSmonitor\"\nmsg.from = \"your-receive-address@somewhere.com\"\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 700,
+        "y": 560,
+        "wires": [
+            [
+                "c540d0c6.8d6af"
+            ]
+        ]
+    },
+    {
+        "id": "9fcb5642.8d4028",
+        "type": "debug",
+        "z": "d986aa2e.6e0688",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "x": 950,
+        "y": 500,
+        "wires": []
+    },
+    {
+        "id": "c540d0c6.8d6af",
+        "type": "rbe",
+        "z": "d986aa2e.6e0688",
+        "name": "Mail on status change",
+        "func": "rbe",
+        "gap": "",
+        "start": "",
+        "inout": "out",
+        "property": "payload",
+        "x": 880,
+        "y": 620,
+        "wires": [
+            [
+                "ebe14612.c797"
+            ]
+        ]
+    },
+    {
+        "id": "ab86e7dc.ab41e",
+        "type": "influxdb out",
+        "z": "d986aa2e.6e0688",
+        "influxdb": "b6977585.4cf8",
+        "name": "",
+        "measurement": "apcbackupscs650-0",
+        "precision": "",
+        "retentionPolicy": "",
+        "x": 880,
+        "y": 240,
+        "wires": []
+    },
+    {
+        "id": "ebe14612.c797",
+        "type": "e-mail",
+        "z": "d986aa2e.6e0688",
+        "server": "your-mail-server.com",
+        "port": "465",
+        "secure": true,
+        "tls": true,
+        "name": "your-send-address@somewhere.com",
+        "dname": "Mail notice",
+        "x": 1010,
+        "y": 560,
+        "wires": []
+    },
+    {
+        "id": "f6d45213.551688",
+        "type": "change",
+        "z": "d986aa2e.6e0688",
+        "name": "UPS status to influxdb",
+        "rules": [
+            {
+                "t": "change",
+                "p": "payload.ups.status.value",
+                "pt": "msg",
+                "from": "OL CHRG",
+                "fromt": "str",
+                "to": "3",
+                "tot": "num"
+            },
+            {
+                "t": "change",
+                "p": "payload.ups.status.value",
+                "pt": "msg",
+                "from": "OL",
+                "fromt": "str",
+                "to": "4",
+                "tot": "num"
+            },
+            {
+                "t": "change",
+                "p": "payload.ups.status.value",
+                "pt": "msg",
+                "from": "OB DISCHRG",
+                "fromt": "str",
+                "to": "2",
+                "tot": "num"
+            },
+            {
+                "t": "change",
+                "p": "payload.ups.status.value",
+                "pt": "msg",
+                "from": "OB LB",
+                "fromt": "str",
+                "to": "1",
+                "tot": "num"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 460,
+        "y": 480,
+        "wires": [
+            [
+                "52c308bb.a2e85"
+            ]
+        ]
+    },
+    {
+        "id": "52c308bb.a2e85",
+        "type": "function",
+        "z": "d986aa2e.6e0688",
+        "name": "prepare ups.status",
+        "func": "value=msg.payload.ups.status.value\n\nmsg.payload=[{\n\tups_status_int: value\n}];\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 690,
+        "y": 480,
+        "wires": [
+            [
+                "9fcb5642.8d4028",
+                "ab86e7dc.ab41e"
+            ]
+        ]
+    },
+    {
+        "id": "b6977585.4cf8",
+        "type": "influxdb",
+        "z": "",
+        "hostname": "127.0.0.1",
+        "port": "8086",
+        "protocol": "http",
+        "database": "apcbackupscs650",
+        "name": "",
+        "usetls": false,
+        "tls": ""
+    }
+]
