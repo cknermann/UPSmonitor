@@ -249,7 +249,7 @@
       ],
       "timeFrom": null,
       "timeShift": null,
-      "title": "Battery Load",
+      "title": "Battery Charge",
       "type": "gauge"
     },
     {
