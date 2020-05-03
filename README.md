@@ -12,11 +12,11 @@ lsusb
 ls /dev/usb/
 udevadm info --attribute-walk --name=/dev/usb/hiddev0 | egrep 'manufacturer|product|serial'
 ```
-…will show, if your UPS is regonized. The first commands will reveal the vendor and product IDs of the UPS. In this case, the vendor ID is 051d and the product ID is 0000). The second command will show the USB device's name, in this case /dev/usb/hiddev0.
+…will show, if your UPS is regonized. The first commands will reveal the vendor and product IDs of the UPS. In this case, the vendor ID is 051d and the product ID is 0000. The second command will show the USB device's name, in this case /dev/usb/hiddev0.
 
 ![USB commands](media/usb.png)
 
-The USB device's name is needed for the third command, which also shows the serial number. With this information, there are two options to configure the UPS in /etc/nut/ups.conf (be sure to increase maxtretry from 0 to 3): 
+The USB device's name is needed for the third command, which also shows the serial number. With this information, there are two options to configure the UPS in /etc/nut/ups.conf (be sure to increase maxretry from 0 to 3): 
 ```sh
 (…)
 maxretry = 3
