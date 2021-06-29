@@ -1,5 +1,7 @@
 # UPSmonitor
-This repo provides the code to set up the monitoring and alerting for an APC UPS with Network UPS Tools (NUT), Node-RED, InfluxDB and Grafana. It's just some example code, which comes "as-it-is" without any warranties or support. Please feel free to adapt it to suit your needs.
+This repo provides the code to set up the monitoring and alerting for an APC UPS with Network UPS Tools (NUT), Node-RED, InfluxDB and Grafana. The setup is described below and also in my [article published in IT-Administrator magazine 7/2020 (only in German, sorry)](https://knermann.it/images/pdf/202007_IT-Administrator_NUT.pdf). It's just some example code, which comes "as-it-is" without any warranties or support. Please feel free to adapt it to suit your needs.
+
+![Built on InfluxDB badge](media/built-on-influxdb.png)
 
 ![UPSmonitor Grafana dashboard](media/grafana_dashboard.png)
 
